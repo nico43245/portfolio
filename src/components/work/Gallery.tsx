@@ -57,6 +57,21 @@ export function Gallery({
             const offset = (i - index + total) % total;
             const visible = offset < 3;
 
+            // Toate imaginile stau în zona vizibilă, deci `loading="lazy"`
+            // nu le-ar amâna: browserul le-ar descărca pe toate opt odată
+            // (384KB) și ar întârzia inclusiv pictarea textului. Montăm
+            // doar ce se vede, plus una în avans pentru următorul pas.
+            if (offset > 3) {
+              return (
+                <div
+                  key={image.src}
+                  aria-hidden="true"
+                  className="absolute inset-0"
+                  style={{ opacity: 0, pointerEvents: "none" }}
+                />
+              );
+            }
+
             return (
               <div
                 key={image.src}

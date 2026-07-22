@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getAllPosts, localized } from "@/lib/mdx";
@@ -32,6 +33,10 @@ export default async function BlogIndex({ params }: Props) {
 
   const t = await getTranslations({ locale, namespace: "blog" });
   const posts = await getAllPosts();
+
+  // Fără articole publicate, un index gol arată a site stricat. Ruta nu
+  // există public până când există conținut (vezi SHOW_DRAFTS în lib/mdx).
+  if (posts.length === 0) notFound();
 
   return (
     <main id="main" className="px-6 pb-24 pt-32 md:px-10 md:pb-32 md:pt-40">

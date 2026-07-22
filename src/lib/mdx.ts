@@ -13,7 +13,10 @@ export type PostFrontmatter = {
   excerpt_en: string;
   date: string;
   tags: string[];
-  /** Articolele schelet sunt marcate vizibil în UI, nu ascunse. */
+  /**
+   * Articolele draft sunt vizibile în dezvoltare (cu badge „Draft"), ca să
+   * poți lucra la ele, dar sunt excluse din build-ul de producție.
+   */
   draft?: boolean;
 };
 
@@ -27,6 +30,14 @@ function readingTime(content: string) {
   const words = content.trim().split(/\s+/).length;
   return Math.max(1, Math.round(words / 200));
 }
+
+/**
+ * În producție ascundem articolele nescrise. Consecința e intenționat
+ * cascadată: fără articole publicate, secțiunea Blog de pe homepage,
+ * linkul din navigație, ruta /blog și intrările din sitemap dispar toate.
+ * Blogul „există" public abia când există un articol real.
+ */
+const SHOW_DRAFTS = process.env.NODE_ENV !== "production";
 
 export async function getAllPosts(): Promise<Post[]> {
   const files = (await readdir(BLOG_DIR)).filter((f) => f.endsWith(".mdx"));
@@ -46,7 +57,14 @@ export async function getAllPosts(): Promise<Post[]> {
   );
 
   // Cele mai noi primele.
-  return posts.sort((a, b) => b.date.localeCompare(a.date));
+  return posts
+    .filter((post) => SHOW_DRAFTS || !post.draft)
+    .sort((a, b) => b.date.localeCompare(a.date));
+}
+
+/** Blogul se afișează (nav, secțiune, rută) doar dacă are ce arăta. */
+export async function hasPosts(): Promise<boolean> {
+  return (await getAllPosts()).length > 0;
 }
 
 export async function getPost(slug: string): Promise<Post | undefined> {

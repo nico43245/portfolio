@@ -17,7 +17,7 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
  * CSS. Sub `prefers-reduced-motion` blocul global din globals.css anulează
  * tranziția — bara sare direct în poziție.
  */
-export function Header() {
+export function Header({ showBlog }: { showBlog: boolean }) {
   const t = useTranslations("nav");
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -44,9 +44,11 @@ export function Header() {
     };
   }, []);
 
+  // Linkul de blog apare doar dacă ruta există (adică există articole
+  // publicate) — altfel ar trimite într-un 404.
   const links = [
     { href: "/#work", label: t("work") },
-    { href: "/blog", label: t("blog") },
+    ...(showBlog ? [{ href: "/blog", label: t("blog") }] : []),
     { href: "/#contact", label: t("contact") },
   ];
 

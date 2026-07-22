@@ -3,7 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { SITE } from "@/lib/site";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
-export function Footer() {
+export function Footer({ showBlog }: { showBlog: boolean }) {
   const t = useTranslations("nav");
   const year = new Date().getFullYear();
 
@@ -24,14 +24,16 @@ export function Footer() {
                 {t("work")}
               </Link>
             </li>
-            <li>
-              <Link
-                href="/blog"
-                className="text-text-muted transition-colors duration-300 hover:text-text"
-              >
-                {t("blog")}
-              </Link>
-            </li>
+            {showBlog && (
+              <li>
+                <Link
+                  href="/blog"
+                  className="text-text-muted transition-colors duration-300 hover:text-text"
+                >
+                  {t("blog")}
+                </Link>
+              </li>
+            )}
             <li>
               <a
                 href={SITE.github}

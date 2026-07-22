@@ -64,14 +64,10 @@ export function ContactForm() {
     }
   }
 
-  if (!configured) {
-    return (
-      <p className="rounded-card border border-accent/40 bg-surface p-6 text-sm text-text-muted">
-        {t("notConfigured")}{" "}
-        <code className="font-mono text-accent">NEXT_PUBLIC_WEB3FORMS_KEY</code>
-      </p>
-    );
-  }
+  // Plasă de siguranță: `Contact` nu ne randează fără cheie. Dacă totuși
+  // se întâmplă, nu afișăm vizitatorului un mesaj de configurare și nici
+  // nu trimitem o cerere care ar eșua oricum.
+  if (!configured) return null;
 
   const fieldClass =
     "w-full border-b border-border bg-transparent px-0 py-3 text-base text-text placeholder:text-text-muted/60 transition-colors duration-300 focus:border-accent focus:outline-none";

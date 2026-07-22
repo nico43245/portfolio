@@ -48,7 +48,6 @@
     "sending": "Sending…",
     "success": "Message sent. I'll get back to you soon.",
     "error": "Couldn't send the message. Try again, or email me directly.",
-    "notConfigured": "The form isn't configured yet — missing key",
     "fields": {
       "name": "Name",
       "email": "Email",

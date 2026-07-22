@@ -5,6 +5,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { fontVariables } from "@/lib/fonts";
 import { SITE } from "@/lib/site";
+import { hasPosts } from "@/lib/mdx";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import "@/styles/globals.css";
@@ -50,6 +51,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   setRequestLocale(locale);
 
   const t = await getTranslations({ locale, namespace: "a11y" });
+  const showBlog = await hasPosts();
 
   return (
     <html lang={locale} className={fontVariables}>
@@ -73,9 +75,9 @@ export default async function LocaleLayout({ children, params }: Props) {
           <a href="#main" className="u-skip-link">
             {t("skipToContent")}
           </a>
-          <Header />
+          <Header showBlog={showBlog} />
           {children}
-          <Footer />
+          <Footer showBlog={showBlog} />
         </NextIntlClientProvider>
       </body>
     </html>

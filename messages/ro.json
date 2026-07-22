@@ -48,7 +48,6 @@
     "sending": "Se trimite…",
     "success": "Mesaj trimis. Îți răspund cât pot de repede.",
     "error": "Nu am putut trimite mesajul. Încearcă din nou sau scrie-mi direct pe email.",
-    "notConfigured": "Formularul nu e încă configurat — lipsește cheia",
     "fields": {
       "name": "Nume",
       "email": "Email",

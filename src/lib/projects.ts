@@ -94,6 +94,7 @@ export const projects: Project[] = [
       width: 1600,
       height: 1000,
     },
+    repo: "https://github.com/nico43245/focus-garden",
   },
   {
     slug: "digest-imobiliar",

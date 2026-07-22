@@ -14,11 +14,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       priority: 1,
     });
-    entries.push({
-      url: `${SITE.url}/${locale}/blog`,
-      lastModified: new Date(),
-      priority: 0.7,
-    });
+    // Fără articole publicate ruta /blog dă 404, deci nu intră în sitemap.
+    if (posts.length > 0) {
+      entries.push({
+        url: `${SITE.url}/${locale}/blog`,
+        lastModified: new Date(),
+        priority: 0.7,
+      });
+    }
     for (const post of posts) {
       entries.push({
         url: `${SITE.url}/${locale}/blog/${post.slug}`,

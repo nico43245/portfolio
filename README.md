@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portofoliu — Nicolas Ghizu
 
-## Getting Started
+Site personal, bilingv RO/EN, construit ca pagină statică.
 
-First, run the development server:
+**Live:** [nicolasghizu.vercel.app](https://nicolasghizu.vercel.app)
+
+## Stack
+
+| | |
+|---|---|
+| Framework | Next.js (App Router, prerandare statică) |
+| Limbaj | TypeScript, strict |
+| Stiluri | Tailwind CSS v4 — tokens în `src/styles/globals.css`, fără fișier de config JS |
+| Traduceri | next-intl, rute `/[locale]` |
+| Blog | MDX (`gray-matter` + `next-mdx-remote`) |
+| Fonturi | Fraunces, Geist, Geist Mono — self-hosted prin `next/font` |
+
+Animațiile sunt CSS, nu JavaScript. Nu există bibliotecă de animație în bundle.
+
+## Dezvoltare
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev          # http://localhost:3000
+npm run build        # build de producție
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Variabilele de mediu sunt documentate în [`.env.example`](.env.example). Niciuna nu e obligatorie ca să rulezi site-ul local.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Cum e organizat
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+  app/[locale]/      rute (pagina principală, blog)
+  components/        UI, grupat pe secțiuni
+  lib/
+    projects.ts      datele proiectelor — un obiect per proiect
+    site.ts          email, GitHub, URL — un singur loc de editat
+    mdx.ts           citirea articolelor
+  styles/globals.css design tokens + tipografie
+content/blog/        articolele, în MDX
+```
 
-## Learn More
+Un proiect nou = un obiect în `src/lib/projects.ts`. Un articol nou = un fișier `.mdx` în `content/blog/`.
 
-To learn more about Next.js, take a look at the following resources:
+Articolele marcate `draft: true` sunt vizibile în dezvoltare, dar excluse din build-ul de producție — împreună cu linkul de blog din navigație și ruta `/blog`, dacă nu rămâne niciun articol publicat.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Decizii care par ciudate, dar sunt intenționate
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Conținutul nu depinde de JavaScript.** Stările ascunse ale animațiilor de intrare sunt prefixate cu `[data-js]` în CSS, iar atributul e pus de un script inline din `<head>`. Fără JavaScript atributul lipsește, deci nu se aplică nicio stare ascunsă și tot conținutul rămâne vizibil. Varianta obișnuită (`initial={{ opacity: 0 }}` cu o bibliotecă de animație) livrează `opacity: 0` în HTML și lasă pagina goală dacă scriptul nu rulează.
 
-## Deploy on Vercel
+**Titlul din hero se animează doar cu `transform`, niciodată cu `opacity`.** Un element cu `opacity: 0` nu e considerat pictat, așa că animarea opacității pe elementul LCP întârzie metrica chiar dacă vizual nu se vede diferența.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Marcajul care semnalează JavaScript e un atribut, nu o clasă.** React reconciliază `className`-ul lui `<html>` la hidratare, deci o clasă adăugată înainte de hidratare produce hydration mismatch. Un atribut pe care serverul nu l-a randat e ignorat.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Accesibilitate
+
+Toate perechile text/fundal sunt verificate WCAG AA înainte de a fi folosite. Lighthouse pe mobil: accesibilitate 100, best practices 100.
+
+## Licență
+
+Codul e MIT. Textele, imaginile și materialele de proiect nu — sunt ale mele.

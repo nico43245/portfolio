@@ -38,6 +38,42 @@
   --ease-signature: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* ---------------------------------------------------------------
+   Tema „cerneală" — pandantul întunecat al ivoriului, cald, nu negru
+   pur. Aceleași nume de tokeni, deci componentele nu știu că există
+   două teme.
+
+   Atributul `data-theme` e pus de scriptul inline din layout înainte de
+   prima pictare (vezi comentariul de acolo). Valorile au fost verificate
+   WCAG AA înainte de a fi fixate — cea mai slabă pereche e 6.07:1.
+   --------------------------------------------------------------- */
+@layer base {
+  [data-theme="dark"] {
+    --color-bg: #14130f;
+    --color-surface: #1b1a15;
+    --color-surface-2: #23221b;
+    --color-border: #33322a;
+    --color-text: #efece1;
+    --color-text-muted: #a3a091;
+    /* Pe fundal închis accentul se DESCHIDE la hover — invers față de
+       tema deschisă, unde se închide. */
+    --color-accent: #c9a24b;
+    --color-accent-strong: #dcbc7f;
+  }
+
+  /* Textura de hârtie ar arăta a zgomot de senzor pe fundal închis.
+     Rămâne, dar mult mai discretă. */
+  [data-theme="dark"] body::before {
+    opacity: 0.018;
+  }
+
+  /* Randările arhitecturale sunt fotografii de zi; pe fundal închis
+     strălucesc prea tare. Le temperăm ușor. */
+  [data-theme="dark"] img {
+    filter: brightness(0.92) contrast(1.02);
+  }
+}
+
 /* Scală tipografică fluidă (§4.2) */
 @layer base {
   :root {
@@ -58,6 +94,31 @@
     font-size: var(--step-body);
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------------------------------------------------------------
+     Textura de hârtie. `feTurbulence` inline ca data: URI — zero
+     request de rețea, deci nu atinge LCP-ul.
+
+     Strat fix peste tot, cu `pointer-events: none` ca să nu fure
+     click-uri, și z-index mic ca să stea sub conținut. Opacitatea e
+     deliberat la limita perceptibilului: la valori mai mari textul
+     mic din Geist începe să pară murdar.
+     --------------------------------------------------------------- */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.028;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Conținutul stă peste textură. */
+  body > * {
+    position: relative;
+    z-index: 1;
   }
 
   /* Focus ring bronz, vizibil peste tot (§9) */
@@ -90,6 +151,35 @@
     font-size: 0.75rem;
     color: var(--color-accent);
   }
+
+  /* Inițială mare, ca într-o revistă tipărită.
+     `initial-letter` face coborârea corect (Safari, Chrome recent);
+     restul primesc varianta cu float, care arată aproape la fel. */
+  .u-dropcap::first-letter {
+    font-family: var(--font-display);
+    color: var(--color-accent);
+    float: left;
+    font-size: 3.4em;
+    line-height: 0.82;
+    padding-right: 0.08em;
+    padding-top: 0.06em;
+  }
+
+  @supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
+    .u-dropcap::first-letter {
+      float: none;
+      font-size: inherit;
+      padding: 0;
+      -webkit-initial-letter: 3;
+      initial-letter: 3;
+      margin-right: 0.08em;
+    }
+  }
+
+  /* Numerele de folio pe marginea paginii au fost scoase la auto-critica
+     din §11.10: ornament pur, vizibil doar peste 1400px, care repeta
+     informația din titlul secțiunii. Numărul secțiunii din
+     `SectionHeading` face deja treaba. */
 
   /* ---------------------------------------------------------------
      Intrarea în scenă la load (§8: opacity 0→1, y 24→0).
@@ -144,6 +234,26 @@
   .u-prose p,
   .u-prose li {
     color: var(--color-text-muted);
+  }
+
+  /* Inițiala doar pe primul paragraf al articolului, și doar dacă are
+     destule rânduri cât să nu arate strâmbă (sub ~3 rânduri o inițială
+     de 3 rânduri iese din paragraf). */
+  @media (min-width: 640px) {
+    .u-prose > p:first-child {
+      color: var(--color-text);
+      font-size: 1.15em;
+    }
+
+    .u-prose > p:first-child::first-letter {
+      font-family: var(--font-display);
+      color: var(--color-accent);
+      float: left;
+      font-size: 3.4em;
+      line-height: 0.82;
+      padding-right: 0.08em;
+      padding-top: 0.06em;
+    }
   }
 
   .u-prose ul {
@@ -202,6 +312,48 @@
     transition: transform 700ms var(--ease-signature);
   }
 
+  /* ---------------------------------------------------------------
+     Înclinarea 3D după cursor (valorile vin din Tilt.tsx) și așezarea
+     la intrarea în cadru.
+
+     `animation-timeline: view()` leagă animația de poziția elementului
+     în viewport, nu de un observer în JS: figura intră ușor rotită și se
+     așază plat pe măsură ce derulezi, fără o linie de JavaScript. Unde
+     nu e suportat, `@supports` lasă elementul pur și simplu drept.
+     --------------------------------------------------------------- */
+  .u-tilt {
+    transform: perspective(1200px) rotateX(var(--tilt-x, 0deg))
+      rotateY(var(--tilt-y, 0deg));
+    transition: transform 400ms var(--ease-signature);
+    will-change: transform;
+  }
+
+  @supports (animation-timeline: view()) {
+    [data-js] .u-settle {
+      animation: settle linear both;
+      animation-timeline: view();
+      /* Se consumă în prima parte a trecerii prin viewport, ca imaginea
+         să fie deja așezată când ajunge în dreptul ochilor. */
+      animation-range: entry 10% cover 38%;
+    }
+  }
+
+  /* Perechea pentru componentele interactive care au nevoie de JS:
+     varianta bogată apare doar dacă JS rulează, varianta simplă doar
+     dacă nu. Aceeași logică ca la reveal-uri — implicit se vede
+     varianta care funcționează fără JavaScript. */
+  .u-js-only {
+    display: none;
+  }
+
+  [data-js] .u-js-only {
+    display: block;
+  }
+
+  [data-js] .u-no-js-only {
+    display: none;
+  }
+
   /* Skip-link: ascuns până primește focus (§9) */
   .u-skip-link {
     position: absolute;
@@ -249,6 +401,18 @@
   }
 }
 
+/* Figura intră ușor rotită și se așază plat. Fără opacity: elementul
+   trebuie să fie pictat de la început, altfel scroll-driven ar putea
+   ascunde conținut dacă animația nu pornește. */
+@keyframes settle {
+  from {
+    transform: perspective(1200px) rotateX(4deg) scale(0.97);
+  }
+  to {
+    transform: perspective(1200px) rotateX(0deg) scale(1);
+  }
+}
+
 /* ---------------------------------------------------------------
    prefers-reduced-motion (§8) — plasa de siguranță globală pentru
    animațiile și tranzițiile CSS (singurele animații din site).
@@ -267,5 +431,97 @@
        invizibile ~1s și abia apoi ar apărea brusc. */
     animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
+  }
+
+  /* Animațiile legate de derulare își iau progresul din scroll, nu din
+     timp, deci `animation-duration` de mai sus nu le atinge. Trebuie
+     oprite explicit, altfel ar continua să se miște. */
+  .u-settle {
+    animation: none !important;
+  }
+
+  /* Fără înclinare 3D — Tilt.tsx nici nu atașează listenerele, dar
+     rămâne și plasa asta dacă preferința se schimbă în timpul sesiunii. */
+  .u-tilt {
+    transform: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Print. Site-ul se printează ca document de portofoliu, nu ca o
+   captură de pagină web: fără navigație, fără texturi, cu adresele
+   linkurilor tipărite lângă text (pe hârtie un link e inutil dacă
+   nu-i vezi ținta).
+   --------------------------------------------------------------- */
+@media print {
+  @page {
+    margin: 18mm 16mm;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-family: var(--font-display), Georgia, serif;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  /* Textura și fundalurile costă toner și nu se văd oricum bine. */
+  body::before {
+    display: none;
+  }
+
+  /* Nimic nu trebuie să rămână ascuns de o animație neterminată. */
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Cromul de navigare nu are sens pe hârtie. */
+  header,
+  footer,
+  nav,
+  .u-skip-link {
+    display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  /* Adresa linkului, tipărită după text. Doar pentru linkuri
+     absolute — ancorele interne (#work) n-ar însemna nimic. */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-family: var(--font-mono);
+    font-size: 8pt;
+    word-break: break-all;
+  }
+
+  /* Fiecare proiect pe pagina lui, fără titluri orfane la subsol. */
+  #work article {
+    break-inside: avoid;
+    break-before: page;
+    padding: 0 !important;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+    break-inside: avoid;
   }
 }

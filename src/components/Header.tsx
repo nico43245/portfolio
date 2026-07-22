@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { ThemeToggle } from "./ThemeToggle";
 
 /**
  * Nav sticky care se ascunde la scroll în jos și reapare la scroll în sus
@@ -82,7 +83,10 @@ export function Header({ showBlog }: { showBlog: boolean }) {
           ))}
         </ul>
 
-        <LanguageSwitcher />
+        <div className="flex items-center gap-3">
+          <LanguageSwitcher />
+          <ThemeToggle />
+        </div>
       </nav>
     </header>
   );

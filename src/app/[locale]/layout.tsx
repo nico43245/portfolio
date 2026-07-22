@@ -64,9 +64,14 @@ export default async function LocaleLayout({ children, params }: Props) {
             Atribut `data-`, nu clasă: React reconciliază `className`-ul lui
             <html>, deci adăugarea unei clase aici ar produce hydration
             mismatch. Un atribut pe care serverul nu l-a randat e ignorat. */}
+        {/* Tema se stabilește în același script, tot înainte de prima
+            pictare: alegerea salvată, altfel preferința sistemului. Dacă
+            ar rula după hidratare, pagina ar clipi alb înainte să treacă
+            pe cerneală. try/catch fiindcă localStorage aruncă în unele
+            moduri private. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `document.documentElement.setAttribute('data-js','')`,
+            __html: `document.documentElement.setAttribute('data-js','');try{var t=localStorage.getItem('theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}`,
           }}
         />
       </head>

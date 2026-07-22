@@ -3,6 +3,7 @@ import { Hero } from "@/components/Hero";
 import { Work } from "@/components/work/Work";
 import { BlogPreview } from "@/components/blog/BlogPreview";
 import { Contact } from "@/components/contact/Contact";
+import { Colophon } from "@/components/Colophon";
 import type { Locale } from "@/i18n/routing";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -17,6 +18,7 @@ export default async function HomePage({ params }: Props) {
       <Work locale={locale as Locale} />
       <BlogPreview locale={locale as Locale} />
       <Contact />
+      <Colophon />
     </main>
   );
 }

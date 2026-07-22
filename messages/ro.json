@@ -58,5 +58,30 @@
       "email": "Adresa de email nu pare validă.",
       "message": "Mesajul e prea scurt."
     }
+  },
+  "colophon": {
+    "title": "Colofon",
+    "typeface": "Litere",
+    "built": "Construit cu",
+    "delivery": "Livrare",
+    "deliveryDetail": "Pagini statice, fără urmărire"
+  },
+  "project": {
+    "back": "Înapoi la proiecte",
+    "problem": "Problema",
+    "decisions": "Decizii",
+    "gallery": "Randări",
+    "viewCode": "Vezi codul",
+    "readMore": "Detalii"
+  },
+  "gallery": {
+    "label": "Randări — {title}",
+    "previous": "Imaginea anterioară",
+    "next": "Imaginea următoare"
+  },
+  "theme": {
+    "toggle": "Schimbă tema",
+    "toDark": "Comută pe tema închisă",
+    "toLight": "Comută pe tema deschisă"
   }
 }

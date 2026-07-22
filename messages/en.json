@@ -58,5 +58,30 @@
       "email": "That email address doesn't look valid.",
       "message": "The message is too short."
     }
+  },
+  "colophon": {
+    "title": "Colophon",
+    "typeface": "Typefaces",
+    "built": "Built with",
+    "delivery": "Delivery",
+    "deliveryDetail": "Static pages, no tracking"
+  },
+  "project": {
+    "back": "Back to projects",
+    "problem": "The problem",
+    "decisions": "Decisions",
+    "gallery": "Renders",
+    "viewCode": "View the code",
+    "readMore": "Read more"
+  },
+  "gallery": {
+    "label": "Renders — {title}",
+    "previous": "Previous image",
+    "next": "Next image"
+  },
+  "theme": {
+    "toggle": "Switch theme",
+    "toDark": "Switch to dark theme",
+    "toLight": "Switch to light theme"
   }
 }

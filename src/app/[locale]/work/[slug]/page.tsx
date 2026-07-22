@@ -91,15 +91,18 @@ export default async function ProjectPage({ params }: Props) {
           </div>
         )}
 
-        {/* Problema, cu inițială mare — punctul de intrare în text. */}
-        <Reveal>
-          <section className="mt-16">
-            <h2 className="u-eyebrow">{t("problem")}</h2>
-            <p className="u-dropcap mt-6 text-[length:var(--step-lede)] leading-relaxed">
-              {project.problem![lang]}
-            </p>
-          </section>
-        </Reveal>
+        {/* Problema, cu inițială mare — punctul de intrare în text.
+            NU se învelește în `Reveal`: e cel mai mare bloc de text de
+            deasupra pliului, deci elementul LCP al paginii, iar `Reveal`
+            îl livrează cu opacity 0 până se hidratează observerul. Un
+            element transparent nu e considerat pictat — măsurat, asta
+            adăuga ~2.3s la LCP. Aceeași regulă ca la titlul din hero. */}
+        <section className="mt-16">
+          <h2 className="u-eyebrow">{t("problem")}</h2>
+          <p className="u-dropcap mt-6 text-[length:var(--step-lede)] leading-relaxed">
+            {project.problem![lang]}
+          </p>
+        </section>
 
         {project.gallery && (
           <Reveal>

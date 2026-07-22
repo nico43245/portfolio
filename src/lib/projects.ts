@@ -16,11 +16,14 @@ export type Badge = "AI" | "Web" | "Automation" | "PWA" | "Local";
 
 type Bilingual = { ro: string; en: string };
 
-/** Cum se ilustrează cardul: imagine reală sau vizual desenat în cod. */
+/**
+ * Cum se ilustrează proiectul: captură reală, sau — pentru proiectele
+ * fără interfață de capturat — o diagramă a mecanismului, desenată.
+ * Diagramele se văd că sunt design; nu pretind că sunt capturi de ecran.
+ */
 export type Visual =
   | { kind: "image"; src: string; width: number; height: number }
-  | { kind: "terminal"; lines: string[] }
-  | { kind: "telegram"; title: string; items: string[] };
+  | { kind: "diagram"; name: "wispr" | "digest" };
 
 export type GalleryImage = {
   src: string;
@@ -119,15 +122,7 @@ export const projects: Project[] = [
     },
     stack: ["Python", "faster-whisper", "ctranslate2", "rumps"],
     badges: ["AI", "Local"],
-    visual: {
-      kind: "terminal",
-      lines: [
-        "$ python dictate.py",
-        "model: large-v3-turbo · int8 · arm64",
-        "hotkey cmd+shift+d — activ, offline",
-        "→ transcriere inserată în aplicația activă",
-      ],
-    },
+    visual: { kind: "diagram", name: "wispr" },
     problem: {
       ro: "Aplicațiile de dictare trimit audio spre cloud ca să-l transcrie. Pentru dictarea zilnică pe un laptop personal, asta înseamnă că fiecare propoziție rostită pleacă la un server străin. Voiam același confort, dar fără ca sunetul să părăsească mașina.",
       en: "Dictation apps send audio to the cloud to transcribe it. For everyday dictation on a personal laptop, that means every sentence you speak leaves for someone else's server. I wanted the same convenience without the audio ever leaving the machine.",
@@ -273,15 +268,7 @@ export const projects: Project[] = [
     },
     stack: ["Python", "Groq", "Telegram API", "GitHub Actions"],
     badges: ["AI", "Automation"],
-    visual: {
-      kind: "telegram",
-      title: "📍 Digest imobiliar",
-      items: [
-        "Piața rezidențială — evoluția prețurilor",
-        "Autorizații de construire, date lunare",
-        "Randamente în zonele periferice",
-      ],
-    },
+    visual: { kind: "diagram", name: "digest" },
     repo: "https://github.com/nico43245/digest-imobiliar-romania",
     problem: {
       ro: "Ca să urmărești piața imobiliară din România trebuie să citești zilnic mai multe publicații, dintre care majoritatea repetă aceleași știri. Voiam rezumatul de dimineață fără abonament, fără server de întreținut și fără costuri lunare.",
@@ -327,4 +314,17 @@ export function hasCaseStudy(project: Project): boolean {
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);
+}
+
+/**
+ * Proiectul următor din listă, ciclic — ca la finalul unei pagini de
+ * proiect să existe unde merge mai departe, nu doar înapoi. Se plimbă
+ * doar printre cele cu pagină proprie, aceeași sursă ca
+ * `generateStaticParams` și sitemap-ul.
+ */
+export function getNextProject(slug: string): Project | undefined {
+  const cases = projects.filter(hasCaseStudy);
+  const current = cases.findIndex((p) => p.slug === slug);
+  if (current === -1 || cases.length < 2) return undefined;
+  return cases[(current + 1) % cases.length];
 }

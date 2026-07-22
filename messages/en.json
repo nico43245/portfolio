@@ -72,16 +72,25 @@
     "decisions": "Decisions",
     "gallery": "Renders",
     "viewCode": "View the code",
-    "readMore": "Read more"
+    "readMore": "Read more",
+    "next": "Next project",
+    "nextLabel": "Project navigation"
   },
   "gallery": {
     "label": "Renders — {title}",
     "previous": "Previous image",
-    "next": "Next image"
+    "next": "Next image",
+    "zoom": "View render at full size",
+    "zoomLabel": "Enlarged render — {title}",
+    "close": "Close"
   },
   "theme": {
     "toggle": "Switch theme",
     "toDark": "Switch to dark theme",
     "toLight": "Switch to light theme"
+  },
+  "diagram": {
+    "wispr": "Diagram: sound goes in and text comes out, all inside the outline that represents the device — nothing leaves for the cloud. Model large-v3-turbo, quantised to int8, pinned to Romanian, triggered with cmd+shift+d.",
+    "digest": "Diagram: three news sources — Ziarul Financiar, Realitatea.net and Economica.net — converge into a single message sent daily at 08:00, with at most eight articles, running on GitHub Actions."
   }
 }

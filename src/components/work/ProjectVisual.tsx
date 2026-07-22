@@ -1,17 +1,16 @@
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import type { Visual } from "@/lib/projects";
+import { WisprDiagram } from "./diagrams/WisprDiagram";
+import { DigestDiagram } from "./diagrams/DigestDiagram";
 
 /**
- * Ilustrația unui rând de proiect.
+ * Ilustrația unui proiect: captură reală acolo unde există interfață,
+ * diagramă a mecanismului acolo unde nu (Wispr e aplicație de menu bar,
+ * Digest e un bot de Telegram).
  *
- * Wispr local (app de menu bar) și Digest (bot de Telegram) nu au UI care
- * să poată fi capturat, așa că primesc vizualuri desenate în cod. Sunt
- * evident elemente de design, nu capturi de ecran pretinse — conținutul
- * lor reproduce formatul real din repo.
- *
- * Interiorul lor rămâne dark (`ink-panel`) și pe tema ivorie: un terminal
- * e dark în mod natural, iar rama de hârtie din ProjectRow îl prezintă ca
- * pe o figură, nu ca pe o gaură în pagină.
+ * Diagramele nu sunt decorative: descriu cum funcționează proiectul,
+ * deci primesc o descriere accesibilă, nu `aria-hidden`.
  */
 export function ProjectVisual({
   visual,
@@ -20,6 +19,8 @@ export function ProjectVisual({
   visual: Visual;
   alt: string;
 }) {
+  const t = useTranslations("diagram");
+
   if (visual.kind === "image") {
     return (
       <Image
@@ -33,45 +34,9 @@ export function ProjectVisual({
     );
   }
 
-  if (visual.kind === "terminal") {
-    return (
-      <div
-        aria-hidden="true"
-        className="flex h-full w-full flex-col justify-center gap-2 bg-ink-panel p-6 font-mono text-[0.7rem] leading-relaxed sm:p-8 sm:text-xs"
-      >
-        {visual.lines.map((line, i) => (
-          <p
-            key={line}
-            className={
-              i === 0 ? "text-[#d8b662]" : "text-ink-panel-text/70"
-            }
-          >
-            {line}
-          </p>
-        ))}
-      </div>
-    );
-  }
-
-  // kind === "telegram"
-  return (
-    <div
-      aria-hidden="true"
-      className="flex h-full w-full items-center justify-center bg-ink-panel p-6"
-    >
-      <div className="w-full max-w-[340px] rounded-card border border-ink-panel-text/15 bg-ink-panel-text/5 p-4">
-        <p className="font-mono text-xs text-[#d8b662]">{visual.title}</p>
-        <ol className="mt-3 space-y-2">
-          {visual.items.map((item, i) => (
-            <li
-              key={item}
-              className="text-[0.8rem] leading-snug text-ink-panel-text/70"
-            >
-              <span className="text-ink-panel-text">{i + 1}.</span> {item}
-            </li>
-          ))}
-        </ol>
-      </div>
-    </div>
+  return visual.name === "wispr" ? (
+    <WisprDiagram label={t("wispr")} />
+  ) : (
+    <DigestDiagram label={t("digest")} />
   );
 }

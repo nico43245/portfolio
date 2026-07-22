@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
-import { getProject, hasCaseStudy, projects } from "@/lib/projects";
+import {
+  getNextProject,
+  getProject,
+  hasCaseStudy,
+  projects,
+} from "@/lib/projects";
 import { Gallery } from "@/components/work/Gallery";
 import { ProjectVisual } from "@/components/work/ProjectVisual";
 import { Reveal } from "@/components/motion/Reveal";
@@ -46,6 +52,7 @@ export default async function ProjectPage({ params }: Props) {
 
   const t = await getTranslations({ locale, namespace: "project" });
   const lang = locale as Locale;
+  const next = getNextProject(slug);
 
   return (
     <main id="main" className="px-6 pb-24 pt-32 md:px-10 md:pb-32 md:pt-40">
@@ -82,12 +89,15 @@ export default async function ProjectPage({ params }: Props) {
             imagine, deci merită să deschidă pagina. */}
         {!project.gallery && (
           <div className="mt-12 overflow-hidden rounded-card border border-border bg-surface shadow-(--shadow-card)">
-            <div className="aspect-[16/10] w-full">
-              <ProjectVisual
-                visual={project.visual}
-                alt={`${project.title} — ${project.tagline[lang]}`}
-              />
-            </div>
+            {/* Aceeași identitate ca figura din lista de pe homepage. */}
+            <ViewTransition name={`project-${project.slug}`}>
+              <div className="aspect-[16/10] w-full">
+                <ProjectVisual
+                  visual={project.visual}
+                  alt={`${project.title} — ${project.tagline[lang]}`}
+                />
+              </div>
+            </ViewTransition>
           </div>
         )}
 
@@ -184,6 +194,35 @@ export default async function ProjectPage({ params }: Props) {
               <span className="sr-only">— {project.title}</span>
             </a>
           </div>
+        )}
+
+        {/* Ieșirea din pagină duce mai departe în portofoliu, nu doar
+            înapoi la listă. */}
+        {next && (
+          <nav
+            aria-label={t("nextLabel")}
+            className="mt-24 border-t border-border pt-10"
+          >
+            <p className="u-eyebrow">{t("next")}</p>
+            <Link
+              href={`/work/${next.slug}`}
+              className="group mt-4 flex flex-wrap items-center justify-between gap-6"
+            >
+              <span className="min-w-0">
+                <span className="u-display block text-2xl md:text-3xl">
+                  {next.title}
+                </span>
+                <span className="mt-2 block font-mono text-xs uppercase tracking-[0.14em] text-text-muted">
+                  {next.tagline[lang]}
+                </span>
+              </span>
+              <ArrowRight
+                size={22}
+                aria-hidden="true"
+                className="shrink-0 text-accent transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </Link>
+          </nav>
         )}
       </div>
     </main>

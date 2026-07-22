@@ -72,16 +72,25 @@
     "decisions": "Decizii",
     "gallery": "Randări",
     "viewCode": "Vezi codul",
-    "readMore": "Detalii"
+    "readMore": "Detalii",
+    "next": "Proiectul următor",
+    "nextLabel": "Navigare între proiecte"
   },
   "gallery": {
     "label": "Randări — {title}",
     "previous": "Imaginea anterioară",
-    "next": "Imaginea următoare"
+    "next": "Imaginea următoare",
+    "zoom": "Vezi randarea la dimensiune mare",
+    "zoomLabel": "Randare mărită — {title}",
+    "close": "Închide"
   },
   "theme": {
     "toggle": "Schimbă tema",
     "toDark": "Comută pe tema închisă",
     "toLight": "Comută pe tema deschisă"
+  },
+  "diagram": {
+    "wispr": "Diagramă: unda sonoră intră și iese text, totul în interiorul conturului care reprezintă device-ul — nimic nu pleacă spre cloud. Model large-v3-turbo, cuantizat int8, fixat pe română, pornit cu cmd+shift+d.",
+    "digest": "Diagramă: trei surse de știri — Ziarul Financiar, Realitatea.net și Economica.net — converg într-un singur mesaj trimis zilnic la ora 08:00, cu cel mult opt articole, rulat pe GitHub Actions."
   }
 }

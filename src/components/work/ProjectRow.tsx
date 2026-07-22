@@ -1,3 +1,4 @@
+import { ViewTransition } from "react";
 import { useTranslations } from "next-intl";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -38,12 +39,17 @@ export function ProjectRow({
           la derulare pe figură. */}
       <Tilt className={`md:col-span-7 ${flipped ? "md:order-2" : ""}`}>
         <figure className="u-settle overflow-hidden rounded-card border border-border bg-surface shadow-(--shadow-card)">
-          <div className="aspect-[16/10] w-full overflow-hidden">
-            <ProjectVisual
-              visual={visual}
-              alt={`${title} — ${tagline[locale]}`}
-            />
-          </div>
+          {/* Aceeași identitate ca figura de pe pagina proiectului: la
+              navigare, browserul mută un singur obiect în loc să schimbe
+              două. Fără suport în browser, navigarea rămâne normală. */}
+          <ViewTransition name={`project-${project.slug}`}>
+            <div className="aspect-[16/10] w-full overflow-hidden">
+              <ProjectVisual
+                visual={visual}
+                alt={`${title} — ${tagline[locale]}`}
+              />
+            </div>
+          </ViewTransition>
         </figure>
       </Tilt>
 

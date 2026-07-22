@@ -3,9 +3,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Expand } from "lucide-react";
 import type { GalleryImage } from "@/lib/projects";
 import type { Locale } from "@/i18n/routing";
+import { Lightbox } from "./Lightbox";
 
 /**
  * Randările ca teanc de fotografii pe birou: imaginea curentă în față,
@@ -36,18 +37,35 @@ export function Gallery({
 }) {
   const t = useTranslations("gallery");
   const [index, setIndex] = useState(0);
+  const [zoomed, setZoomed] = useState(false);
   const total = images.length;
 
   const go = (delta: number) => setIndex((i) => (i + delta + total) % total);
 
   return (
     <figure className="u-js-only mt-10">
+      {/* Grupul e focusabil ca să poată primi săgețile. `aria-roledescription`
+          îl anunță drept carusel, iar butoanele de sub el rămân calea
+          principală — săgețile sunt un plus, nu singura cale. */}
       <div
-        className="relative"
+        className="relative rounded-card"
         style={{ perspective: "1400px" }}
         role="group"
+        tabIndex={0}
         aria-roledescription="carousel"
         aria-label={t("label", { title })}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            go(-1);
+          } else if (event.key === "ArrowRight") {
+            event.preventDefault();
+            go(1);
+          } else if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            setZoomed(true);
+          }
+        }}
       >
         {/* Raportul e fix, identic pentru toate randările — fără salt de
             layout când se schimbă imaginea. */}
@@ -116,6 +134,14 @@ export function Gallery({
         <div className="flex items-center gap-2">
           <button
             type="button"
+            onClick={() => setZoomed(true)}
+            aria-label={t("zoom")}
+            className="mr-2 inline-flex h-10 w-10 items-center justify-center rounded-btn border border-border transition-colors duration-300 hover:border-accent hover:text-accent"
+          >
+            <Expand size={16} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
             onClick={() => go(-1)}
             aria-label={t("previous")}
             className="inline-flex h-10 w-10 items-center justify-center rounded-btn border border-border transition-colors duration-300 hover:border-accent hover:text-accent"
@@ -132,6 +158,13 @@ export function Gallery({
           </button>
         </div>
       </figcaption>
+
+      <Lightbox
+        image={zoomed ? images[index] : null}
+        locale={locale}
+        title={title}
+        onClose={() => setZoomed(false)}
+      />
     </figure>
   );
 }

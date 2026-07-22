@@ -1,0 +1,35 @@
+---
+slug: transcriere-offline
+title_ro: "Transcriere vocală care nu iese din laptop"
+title_en: "Voice transcription that never leaves the laptop"
+excerpt_ro: "Whisper rulat local pe Apple Silicon: ce e nevoie, ce merge bine și unde se împiedică."
+excerpt_en: "Running Whisper locally on Apple Silicon: what it takes, what works well, and where it stumbles."
+date: "2026-07-03"
+tags: ["Whisper", "macOS", "Python"]
+draft: true
+---
+
+> Articol schelet. Structura e pusă, textul urmează să fie scris.
+
+## Ideea
+
+Dictare care funcționează fără internet și fără ca audio-ul să ajungă la
+cineva. Tot lanțul — captare, transcriere, inserarea textului — rulează pe
+mașina locală.
+
+## Ce cere în practică
+
+Python nativ arm64, nu prin Rosetta. Permisiuni de microfon și de Input
+Monitoring, acordate manual în System Settings. Modelul se descarcă o
+singură dată.
+
+## Unde se împiedică
+
+Prima rulare e lentă până se încarcă modelul. Hotkey-urile globale sunt
+sensibile la ce aplicație are focus.
+
+## De completat
+
+- Comparație între dimensiunile de model și calitatea pe română
+- Măsurători de latență de la eliberarea tastei până la text inserat
+- Ce se întâmplă la audio lung

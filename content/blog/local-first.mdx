@@ -1,0 +1,34 @@
+---
+slug: local-first
+title_ro: "De ce Focus Garden nu are cont și nici backend"
+title_en: "Why Focus Garden has no account and no backend"
+excerpt_ro: "Ce se schimbă când datele nu pleacă niciodată de pe device — și ce renunți în schimb."
+excerpt_en: "What changes when data never leaves the device — and what you give up in return."
+date: "2026-07-10"
+tags: ["local-first", "PWA", "IndexedDB"]
+draft: true
+---
+
+> Articol schelet. Structura e pusă, textul urmează să fie scris.
+
+## Punctul de plecare
+
+Focus Garden ține tot în IndexedDB, pe device. Fără cont, fără sync, fără
+server. Decizia asta atinge aproape fiecare parte a aplicației.
+
+## Ce devine mai simplu
+
+Fără autentificare, fără bază de date de administrat, fără costuri de
+operare. Aplicația funcționează offline pentru că nu are de la cine să
+aștepte date.
+
+## Ce devine mai greu
+
+Datele nu trec de la un device la altul. Un browser curățat înseamnă o
+grădină pierdută. Export și import devin obligatorii, nu opționale.
+
+## De completat
+
+- Cum se face migrarea de schemă în Dexie fără pierdere de date
+- Ce înseamnă concret „instalabilă" pe iOS și ce limite are
+- Când local-first e alegerea greșită

@@ -16,11 +16,48 @@
   "nav": {
     "work": "Work",
     "blog": "Blog",
-    "contact": "Contact"
+    "contact": "Contact",
+    "home": "Acasă",
+    "primary": "Navigație principală",
+    "secondary": "Navigație secundară"
   },
   "language": {
     "label": "Limbă",
     "ro": "RO",
     "en": "EN"
+  },
+  "work": {
+    "eyebrow": "PROIECTE",
+    "title": "Lucruri pe care le-am construit"
+  },
+  "blog": {
+    "eyebrow": "SCRIS",
+    "title": "Note",
+    "metaDescription": "Note scurte despre proiectele și tehnologiile cu care lucrez.",
+    "all": "Toate articolele",
+    "back": "Înapoi la articole",
+    "draft": "Draft",
+    "readingTime": "{minutes} min de citit"
+  },
+  "contact": {
+    "eyebrow": "CONTACT",
+    "title": "Hai să vorbim",
+    "intro": "Dacă vrei să construim ceva împreună sau ai o întrebare despre vreun proiect, scrie-mi.",
+    "directEmail": "Email direct",
+    "send": "Trimite",
+    "sending": "Se trimite…",
+    "success": "Mesaj trimis. Îți răspund cât pot de repede.",
+    "error": "Nu am putut trimite mesajul. Încearcă din nou sau scrie-mi direct pe email.",
+    "notConfigured": "Formularul nu e încă configurat — lipsește cheia",
+    "fields": {
+      "name": "Nume",
+      "email": "Email",
+      "message": "Mesaj"
+    },
+    "errors": {
+      "name": "Scrie-mi numele tău.",
+      "email": "Adresa de email nu pare validă.",
+      "message": "Mesajul e prea scurt."
+    }
   }
 }

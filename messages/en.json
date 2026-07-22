@@ -16,11 +16,48 @@
   "nav": {
     "work": "Work",
     "blog": "Blog",
-    "contact": "Contact"
+    "contact": "Contact",
+    "home": "Home",
+    "primary": "Primary navigation",
+    "secondary": "Secondary navigation"
   },
   "language": {
     "label": "Language",
     "ro": "RO",
     "en": "EN"
+  },
+  "work": {
+    "eyebrow": "PROJECTS",
+    "title": "Things I have built"
+  },
+  "blog": {
+    "eyebrow": "WRITING",
+    "title": "Notes",
+    "metaDescription": "Short notes on the projects and technologies I work with.",
+    "all": "All posts",
+    "back": "Back to posts",
+    "draft": "Draft",
+    "readingTime": "{minutes} min read"
+  },
+  "contact": {
+    "eyebrow": "CONTACT",
+    "title": "Let's talk",
+    "intro": "If you want to build something together, or have a question about one of these projects, drop me a line.",
+    "directEmail": "Direct email",
+    "send": "Send",
+    "sending": "Sending…",
+    "success": "Message sent. I'll get back to you soon.",
+    "error": "Couldn't send the message. Try again, or email me directly.",
+    "notConfigured": "The form isn't configured yet — missing key",
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Message"
+    },
+    "errors": {
+      "name": "Please tell me your name.",
+      "email": "That email address doesn't look valid.",
+      "message": "The message is too short."
+    }
   }
 }

@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Hover-urile de card se aplică doar la mouse, nu la atingere (spec §8) */
+@custom-variant pointer-fine (@media (pointer: fine));
+
 /* ---------------------------------------------------------------
    Design tokens — sursa de adevăr vizuală (spec §4.1)
    Valorile hex sunt copiate exact din specificație. Nu le schimba
@@ -92,12 +95,103 @@
       var(--rise-delay, 0ms) both;
   }
 
+  /* Variantă doar-transform, pentru elementul LCP.
+     Un element cu `opacity: 0` nu e considerat pictat, așa că animarea
+     opacității pe titlul din hero împingea LCP-ul la 4.1s. Deplasarea
+     păstrează senzația de intrare fără să întârzie pictarea. */
+  .u-rise-y {
+    animation: rise-y var(--rise-duration, 550ms) var(--ease-signature)
+      var(--rise-delay, 0ms) both;
+  }
+
   /* Firul auriu care se desenează la load (§4.5, ~900ms).
      `pathLength` normalizează lungimea traseului la 1, ca dasharray
      să funcționeze fără să știm lungimea reală a curbei. */
   .u-thread-draw {
     stroke-dasharray: 1;
     animation: thread-draw 900ms var(--ease-signature) both;
+  }
+
+  /* Tipografie de articol. Scris de mână în loc de
+     @tailwindcss/typography — avem două articole și un set mic de
+     elemente, nu merită încă o dependență. */
+  .u-prose > * + * {
+    margin-top: 1.5em;
+  }
+
+  .u-prose h2 {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    margin-top: 2.5em;
+  }
+
+  .u-prose h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    margin-top: 2em;
+  }
+
+  .u-prose p,
+  .u-prose li {
+    color: var(--color-text-muted);
+  }
+
+  .u-prose ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+
+  .u-prose li + li {
+    margin-top: 0.5em;
+  }
+
+  .u-prose blockquote {
+    border-left: 2px solid var(--color-gold);
+    padding-left: 1.25rem;
+    font-style: italic;
+  }
+
+  .u-prose a {
+    color: var(--color-gold);
+    text-underline-offset: 3px;
+    text-decoration: underline;
+  }
+
+  .u-prose code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background-color: var(--color-surface-2);
+    padding: 0.15em 0.4em;
+    border-radius: var(--radius-btn);
+  }
+
+  /* Reveal la scroll (§8). Starea ascunsă e prefixată cu `[data-js]`:
+     fără JavaScript atributul nu există, deci conținutul rămâne vizibil
+     în loc să aștepte la nesfârșit un observer care nu va rula niciodată. */
+  [data-js] .u-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  [data-js] .u-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 550ms var(--ease-signature) var(--reveal-delay, 0ms),
+      transform 550ms var(--ease-signature) var(--reveal-delay, 0ms);
+  }
+
+  /* Firul auriu dintre secțiuni, care crește pe lățime la scroll. */
+  [data-js] .u-thread-grow {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  [data-js] .u-thread-grow.is-visible {
+    transform: scaleX(1);
+    transition: transform 700ms var(--ease-signature);
   }
 
   /* Skip-link: ascuns până primește focus (§9) */
@@ -124,6 +218,15 @@
   }
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+@keyframes rise-y {
+  from {
+    transform: translateY(24px);
+  }
+  to {
+    transform: none;
   }
 }
 

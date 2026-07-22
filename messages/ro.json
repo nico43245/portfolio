@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "title": "Nicolas Ghizu",
+    "description": "Proiecte la care lucrez — aplicații, instrumente și interfețe, construite cu grijă pentru detaliu."
+  },
+  "a11y": {
+    "skipToContent": "Sari la conținut"
+  },
+  "hero": {
+    "eyebrow": "SELECTED WORK",
+    "title": "Nicolas Ghizu",
+    "subtitle": "Proiecte la care lucrez — aplicații, instrumente și interfețe, construite cu grijă pentru detaliu.",
+    "ctaPrimary": "Vezi proiectele",
+    "ctaSecondary": "Contact"
+  },
+  "nav": {
+    "work": "Work",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "language": {
+    "label": "Limbă",
+    "ro": "RO",
+    "en": "EN"
+  }
+}

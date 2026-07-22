@@ -1,0 +1,161 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   Design tokens — sursa de adevăr vizuală (spec §4.1)
+   Valorile hex sunt copiate exact din specificație. Nu le schimba
+   aici fără să actualizezi portfolio-spec.md.
+   --------------------------------------------------------------- */
+@theme {
+  --color-bg: #0e100c; /* charcoal cald, ușor verzui — NU negru pur */
+  --color-surface: #16180f; /* carduri, secțiuni ridicate */
+  --color-surface-2: #1e2116; /* hover / straturi */
+  --color-border: #2b2e22; /* hairline-uri */
+  --color-text: #ece9dd; /* off-white cald */
+  --color-text-muted: #9b9c8c; /* subtitluri, captions */
+  --color-gold: #c9a24b; /* accent principal — champagne, muted */
+  --color-gold-soft: #e0c588; /* highlight, hover pe auriu */
+  --color-sage: #7c9885; /* accent secundar — verde salvie */
+
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* §4.3 — rotunjimi mici și consistente, fără rotunjimi mari */
+  --radius-card: 8px;
+  --radius-btn: 4px;
+
+  /* §4.4 — un singur easing pentru tot site-ul */
+  --ease-signature: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Scală tipografică fluidă (§4.2) */
+@layer base {
+  :root {
+    --step-display: clamp(2.75rem, 7vw, 6rem);
+    --step-section: clamp(1.75rem, 3vw, 2.75rem);
+    --step-body: 1.0625rem;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--step-body);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Focus ring auriu, vizibil peste tot (§9) */
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-gold);
+    color: var(--color-bg);
+  }
+}
+
+@layer components {
+  /* Titluri display: Fraunces cu letter-spacing ușor negativ (§4.2) */
+  .u-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  /* Eyebrow mono, uppercase, tracking larg (§4.2) */
+  .u-eyebrow {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  /* ---------------------------------------------------------------
+     Intrarea în scenă la load (§8: opacity 0→1, y 24→0).
+     Deliberat în CSS, nu în JS: HTML-ul livrat rămâne vizibil dacă
+     JS-ul nu rulează, iar textul din hero pictează fără să aștepte
+     hidratarea (contează pentru LCP). Delay-ul se dă prin
+     --rise-delay pentru orchestrare.
+     --------------------------------------------------------------- */
+  .u-rise {
+    animation: rise var(--rise-duration, 550ms) var(--ease-signature)
+      var(--rise-delay, 0ms) both;
+  }
+
+  /* Firul auriu care se desenează la load (§4.5, ~900ms).
+     `pathLength` normalizează lungimea traseului la 1, ca dasharray
+     să funcționeze fără să știm lungimea reală a curbei. */
+  .u-thread-draw {
+    stroke-dasharray: 1;
+    animation: thread-draw 900ms var(--ease-signature) both;
+  }
+
+  /* Skip-link: ascuns până primește focus (§9) */
+  .u-skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -100%;
+    z-index: 100;
+    padding: 0.75rem 1.25rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-gold);
+    border-radius: var(--radius-btn);
+    transition: top 200ms var(--ease-signature);
+  }
+
+  .u-skip-link:focus {
+    top: 1rem;
+  }
+}
+
+@keyframes thread-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------
+   prefers-reduced-motion (§8) — plasa de siguranță globală pentru
+   animațiile CSS. Animațiile JS (motion) sunt oprite separat, prin
+   useReducedMotion() în componente.
+   --------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    /* Fără reset de delay, elementele cu --rise-delay ar rămâne
+       invizibile ~1s și abia apoi ar apărea brusc. */
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

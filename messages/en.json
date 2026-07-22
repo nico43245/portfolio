@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "title": "Nicolas Ghizu",
+    "description": "Things I build — apps, tools and interfaces, made with care for detail."
+  },
+  "a11y": {
+    "skipToContent": "Skip to content"
+  },
+  "hero": {
+    "eyebrow": "SELECTED WORK",
+    "title": "Nicolas Ghizu",
+    "subtitle": "Things I build — apps, tools and interfaces, made with care for detail.",
+    "ctaPrimary": "View work",
+    "ctaSecondary": "Contact"
+  },
+  "nav": {
+    "work": "Work",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "language": {
+    "label": "Language",
+    "ro": "RO",
+    "en": "EN"
+  }
+}

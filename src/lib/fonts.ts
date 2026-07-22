@@ -31,10 +31,13 @@ export const geistMono = Geist_Mono({
   subsets: ["latin", "latin-ext"],
   display: "swap",
   variable: "--font-geist-mono",
-  // Folosit doar la eyebrow-uri, tag-uri și numere — text mic, niciodată
-  // elementul LCP. Preîncărcarea lui fura lățime de bandă de la Fraunces,
-  // care e chiar elementul LCP.
-  preload: false,
+  // Preîncărcat, deși e folosit doar la text mic (eyebrow-uri, tag-uri,
+  // comutatorul de limbă). În Faza B fusese `preload: false`, ca să nu
+  // fure lățime de bandă de la Fraunces, elementul LCP. Costul s-a văzut
+  // abia când am măsurat deplasările de layout: sosind târziu, schimba
+  // lățimea etichetelor mono uppercase și mișca antetul și lista de
+  // stack — 0.10 din CLS-ul de 0.11 al paginii de proiect.
+  preload: true,
 });
 
 export const fontVariables = [

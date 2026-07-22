@@ -8,8 +8,8 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border px-6 py-12 md:px-10">
-      <div className="mx-auto flex w-full min-w-0 max-w-[1200px] flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
+    <footer className="border-t border-border px-6 py-8 md:px-10">
+      <div className="mx-auto flex w-full min-w-0 max-w-[1200px] flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <Link href="/" className="u-display text-lg">
           NG<span className="sr-only"> — {t("home")}</span>
         </Link>

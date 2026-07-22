@@ -3,7 +3,7 @@
 import { useInViewOnce } from "./useInViewOnce";
 
 /**
- * Separatorul auriu care „crește" pe lățime la scroll (spec §8) — varianta
+ * Separatorul bronz care „crește" pe lățime la scroll (spec §8) — varianta
  * de scroll a signature element-ului din §4.5.
  *
  * Ca și `Reveal`, starea inițială stă în CSS sub `.js`: fără JavaScript
@@ -16,7 +16,7 @@ export function ThreadSeparator({ className = "" }: { className?: string }) {
     <div className={`h-px w-full bg-border ${className}`} aria-hidden="true">
       <div
         ref={ref}
-        className={`u-thread-grow h-px bg-gold ${inView ? "is-visible" : ""}`}
+        className={`u-thread-grow h-px bg-accent ${inView ? "is-visible" : ""}`}
       />
     </div>
   );

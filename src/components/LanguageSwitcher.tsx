@@ -38,7 +38,7 @@ export function LanguageSwitcher() {
               }
               className={
                 isActive
-                  ? "text-gold"
+                  ? "text-accent"
                   : "text-text-muted transition-colors duration-300 hover:text-text"
               }
             >

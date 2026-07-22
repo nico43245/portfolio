@@ -3,14 +3,18 @@ import { projects } from "@/lib/projects";
 import type { Locale } from "@/i18n/routing";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { ProjectCard } from "./ProjectCard";
+import { ProjectRow } from "./ProjectRow";
 
 /**
  * Secțiunea Work — nucleul site-ului (spec §5.2).
  *
- * `Reveal` e client component, dar cardurile îi sunt pasate drept `children`
- * dintr-un server component, deci rămân randate pe server și nu ajung în
- * bundle-ul de client.
+ * Direcția „editorial ivoriu": proiectele nu mai stau într-un grid de
+ * carduri, ci ca articole de revistă — rânduri late, separate de
+ * hairline-uri, cu imaginea alternând stânga/dreapta pe desktop.
+ *
+ * `Reveal` e client component, dar rândurile îi sunt pasate drept
+ * `children` dintr-un server component, deci rămân randate pe server și
+ * nu ajung în bundle-ul de client.
  */
 export function Work({ locale }: { locale: Locale }) {
   const t = useTranslations("work");
@@ -20,10 +24,10 @@ export function Work({ locale }: { locale: Locale }) {
       <div className="mx-auto w-full min-w-0 max-w-[1200px]">
         <SectionHeading number="01" eyebrow={t("eyebrow")} title={t("title")} />
 
-        <ul className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+        <ul className="mt-8 divide-y divide-border">
           {projects.map((project, i) => (
-            <Reveal key={project.slug} index={i} as="li" className="h-full">
-              <ProjectCard project={project} locale={locale} />
+            <Reveal key={project.slug} as="li">
+              <ProjectRow project={project} locale={locale} index={i} />
             </Reveal>
           ))}
         </ul>

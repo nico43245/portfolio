@@ -25,7 +25,7 @@ export function PostMeta({
       <span aria-hidden="true">·</span>
       <span>{t("readingTime", { minutes: readingMinutes })}</span>
       {draft && (
-        <span className="rounded-btn border border-gold/50 px-2 py-0.5 uppercase tracking-[0.14em] text-gold">
+        <span className="rounded-btn border border-accent/50 px-2 py-0.5 uppercase tracking-[0.14em] text-accent">
           {t("draft")}
         </span>
       )}

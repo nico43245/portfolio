@@ -13,27 +13,25 @@ export function Contact() {
       <div className="mx-auto w-full min-w-0 max-w-[1200px]">
         <SectionHeading number="03" eyebrow={t("eyebrow")} title={t("title")} />
 
-        <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
+        <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
           <Reveal>
-            <ContactForm />
-          </Reveal>
+            <div className="flex flex-col gap-8">
+              <p className="max-w-[40ch] text-[length:var(--step-lede)] leading-relaxed text-text-muted">
+                {t("intro")}
+              </p>
 
-          <Reveal index={1}>
-            <div className="flex flex-col gap-6">
-              <p className="max-w-[45ch] text-text-muted">{t("intro")}</p>
-
-              <dl className="flex flex-col gap-4 text-sm">
+              <dl className="flex flex-col gap-5 text-sm">
                 <div>
                   <dt className="u-eyebrow">{t("directEmail")}</dt>
                   <dd className="mt-1">
                     {emailMissing ? (
                       // Placeholder vizibil intenționat (spec §12) — nu-l
                       // transformăm în mailto ca să nu pară funcțional.
-                      <span className="font-mono text-gold">{SITE.email}</span>
+                      <span className="font-mono text-accent">{SITE.email}</span>
                     ) : (
                       <a
                         href={`mailto:${SITE.email}`}
-                        className="text-gold transition-colors duration-300 hover:text-gold-soft"
+                        className="text-accent underline decoration-accent/40 underline-offset-4 transition-colors duration-300 hover:text-accent-strong"
                       >
                         {SITE.email}
                       </a>
@@ -48,7 +46,7 @@ export function Contact() {
                       href={SITE.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gold transition-colors duration-300 hover:text-gold-soft"
+                      className="text-accent underline decoration-accent/40 underline-offset-4 transition-colors duration-300 hover:text-accent-strong"
                     >
                       @{SITE.githubHandle}
                     </a>
@@ -56,6 +54,10 @@ export function Contact() {
                 </div>
               </dl>
             </div>
+          </Reveal>
+
+          <Reveal index={1}>
+            <ContactForm />
           </Reveal>
         </div>
       </div>

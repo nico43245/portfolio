@@ -62,23 +62,26 @@ Header: monogramă „NG" (stânga) · nav (Work / Blog / Contact) · switcher *
 
 ## 4. Design system (sursa de adevăr vizuală)
 
-Direcția: **dark minimalist, cald, cu accent auriu champagne + verde salvie.** Nu negru pur, nu verde-acid — evită clișeul „dark + acid green". Auriul dă o tușă premium, clasică; verdele salvie adaugă un accent viu, „de creștere". Referință de rafinament: layout editorial de arhitectură tradus în dark mode.
+> **Revizuit 2026-07-22, la cererea clientului.** Direcția inițială (dark charcoal + auriu champagne + verde salvie) a fost respinsă: „greu de citit cu negru și verde". Înlocuită cu **editorial ivoriu**.
+
+Direcția: **editorial ivoriu — fundal deschis cald (hârtie), text aproape negru, un singur accent bronz închis.** Premium prin tipografie și spațiu, nu prin efecte. Referință: revistă de arhitectură / site de galerie — Fraunces mare, hairline-uri, mult alb.
 
 ### 4.1 Culori (tokens — folosește exact acestea)
 
 ```css
---bg:            #0E100C;  /* charcoal cald, ușor verzui — NU negru pur */
---surface:       #16180F;  /* carduri, secțiuni ridicate */
---surface-2:     #1E2116;  /* hover / straturi */
---border:        #2B2E22;  /* hairline-uri */
---text:          #ECE9DD;  /* off-white cald */
---text-muted:    #9B9C8C;  /* subtitluri, captions */
---gold:          #C9A24B;  /* accent principal — champagne, muted */
---gold-soft:     #E0C588;  /* highlight, hover pe auriu */
---sage:          #7C9885;  /* accent secundar — verde salvie */
+--bg:             #F7F4EC;  /* ivoriu cald, hârtie — NU alb pur */
+--surface:        #FDFBF5;  /* figuri ridicate, abia perceptibil */
+--surface-2:      #EFEAE0;  /* code blocks, hover */
+--border:         #DDD6C6;  /* hairline-uri pe hârtie */
+--text:           #1A1915;  /* aproape negru, cald — 16:1 pe bg */
+--text-muted:     #5F5B4F;  /* subtitluri, captions — 6.17:1 pe bg */
+--accent:         #7F6435;  /* bronz închis — 5.06:1 ca text pe bg */
+--accent-strong:  #6E5527;  /* hover: pe fundal deschis accentul se închide */
+--ink-panel:      #16150F;  /* interiorul figurilor dark (terminal, telegram) */
+--ink-panel-text: #ECE9DD;  /* text în interiorul figurilor dark */
 ```
 
-Regulă: auriul e rar și intenționat (linkuri active, hairline hero, un cuvânt din titlu). Verdele salvie apare la accente „vii" (badge-uri de status). Restul e monocrom disciplinat.
+Regulă: bronzul e rar și intenționat (linkuri, numerele secțiunilor, linia de cerneală). Restul e monocrom disciplinat pe hârtie. Toate perechile text/fundal au fost verificate WCAG AA (≥4.5:1) — nu schimba valorile fără a re-rula verificarea.
 
 ### 4.2 Tipografie
 
@@ -88,14 +91,15 @@ Regulă: auriul e rar și intenționat (linkuri active, hairline hero, un cuvân
 | Body | **Geist Sans** (sau Mona Sans) | curat, tehnic, lizibil |
 | Utility / date-tech | **Geist Mono** (sau JetBrains Mono) | pentru tag-urile de stack, numere, eyebrow-uri |
 
-Scală (fluid, `clamp`): hero display ~ `clamp(2.75rem, 7vw, 6rem)`, section title ~ `clamp(1.75rem, 3vw, 2.75rem)`, body `1.0625rem/1.7`. Titluri display cu `letter-spacing` ușor negativ; eyebrow-uri mono cu `letter-spacing: 0.18em` uppercase.
+Scală (fluid, `clamp`): hero display ~ `clamp(3.25rem, 9vw, 7.5rem)` (dominant, pe două rânduri), section title ~ `clamp(2rem, 3.5vw, 3.25rem)`, lede ~ `clamp(1.125rem, 1.6vw, 1.375rem)`, body `1.0625rem/1.7`. Titluri display cu `letter-spacing` ușor negativ; eyebrow-uri mono cu `letter-spacing: 0.18em` uppercase, în bronz.
 
 ### 4.3 Layout & spacing
 
 - Container max `1200px`, gutter generos, mult whitespace („liniște" clasică).
-- Grid de 12 coloane; proiectele pe 2 coloane pe desktop, 1 pe mobil.
-- `border-radius` mic și consistent (`8px` carduri, `4px` butoane). Fără rotunjimi mari.
+- Grid de 12 coloane; proiectele ca **rânduri editoriale** (figură 7 col + text 5 col, alternând stânga/dreapta pe desktop; stack pe mobil), separate de hairline-uri full-width.
+- `border-radius` mic și consistent (`6px` figuri, `4px` butoane). Fără rotunjimi mari.
 - Hairline-uri de 1px (`--border`) ca element structural, nu decorativ.
+- O singură umbră în tot site-ul (difuză, caldă), doar pe figurile de proiect.
 
 ### 4.4 Motion (vezi §8)
 
@@ -103,7 +107,7 @@ Subtil, orchestrat, niciodată gimmicky. Easing `cubic-bezier(0.22, 1, 0.36, 1)`
 
 ### 4.5 Signature element
 
-**Un fir auriu subțire care se „desenează" (SVG stroke-dashoffset) la load în hero și reapare ca separator între secțiuni, „crescând" la scroll.** Este firul conducător vizual care leagă proiectele. Singurul element „îndrăzneț"; restul rămâne quiet.
+**O linie de cerneală bronz, subțire (1px), care se „desenează" (SVG stroke-dashoffset) la load în hero și reapare ca separator între secțiuni, „crescând" la scroll.** Este firul conducător vizual care leagă proiectele. Singurul element „îndrăzneț"; restul rămâne quiet.
 
 ---
 

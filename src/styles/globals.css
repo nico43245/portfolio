@@ -9,23 +9,30 @@
    aici fără să actualizezi portfolio-spec.md.
    --------------------------------------------------------------- */
 @theme {
-  --color-bg: #0e100c; /* charcoal cald, ușor verzui — NU negru pur */
-  --color-surface: #16180f; /* carduri, secțiuni ridicate */
-  --color-surface-2: #1e2116; /* hover / straturi */
-  --color-border: #2b2e22; /* hairline-uri */
-  --color-text: #ece9dd; /* off-white cald */
-  --color-text-muted: #9b9c8c; /* subtitluri, captions */
-  --color-gold: #c9a24b; /* accent principal — champagne, muted */
-  --color-gold-soft: #e0c588; /* highlight, hover pe auriu */
-  --color-sage: #7c9885; /* accent secundar — verde salvie */
+  --color-bg: #f7f4ec; /* ivoriu cald, hârtie — NU alb pur */
+  --color-surface: #fdfbf5; /* figuri ridicate, abia perceptibil */
+  --color-surface-2: #efeae0; /* code blocks, hover */
+  --color-border: #ddd6c6; /* hairline-uri pe hârtie */
+  --color-text: #1a1915; /* aproape negru, cald — 16:1 pe bg */
+  --color-text-muted: #5f5b4f; /* subtitluri, captions — 6.17:1 pe bg */
+  --color-accent: #7f6435; /* bronz închis — 5.06:1 ca text pe bg */
+  --color-accent-strong: #6e5527; /* hover: pe fundal deschis accentul se închide */
+  --color-ink-panel: #16150f; /* interiorul figurilor dark (terminal, telegram) */
+  --color-ink-panel-text: #ece9dd; /* text în interiorul figurilor dark */
 
   --font-display: var(--font-fraunces), Georgia, serif;
   --font-sans: var(--font-geist-sans), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
   /* §4.3 — rotunjimi mici și consistente, fără rotunjimi mari */
-  --radius-card: 8px;
+  --radius-card: 6px;
   --radius-btn: 4px;
+
+  /* Singura umbră a site-ului — difuză, caldă, doar pe figurile de proiect.
+     Pe fundal deschis umbra înlocuiește glow-urile din vechea temă dark. */
+  --shadow-card:
+    0 1px 2px rgb(26 25 21 / 0.06),
+    0 12px 32px -12px rgb(26 25 21 / 0.18);
 
   /* §4.4 — un singur easing pentru tot site-ul */
   --ease-signature: cubic-bezier(0.22, 1, 0.36, 1);
@@ -34,8 +41,9 @@
 /* Scală tipografică fluidă (§4.2) */
 @layer base {
   :root {
-    --step-display: clamp(2.75rem, 7vw, 6rem);
-    --step-section: clamp(1.75rem, 3vw, 2.75rem);
+    --step-display: clamp(3.25rem, 9vw, 7.5rem);
+    --step-section: clamp(2rem, 3.5vw, 3.25rem);
+    --step-lede: clamp(1.125rem, 1.6vw, 1.375rem);
     --step-body: 1.0625rem;
   }
 
@@ -52,15 +60,15 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Focus ring auriu, vizibil peste tot (§9) */
+  /* Focus ring bronz, vizibil peste tot (§9) */
   :focus-visible {
-    outline: 2px solid var(--color-gold);
+    outline: 2px solid var(--color-accent);
     outline-offset: 3px;
     border-radius: 2px;
   }
 
   ::selection {
-    background-color: var(--color-gold);
+    background-color: var(--color-accent);
     color: var(--color-bg);
   }
 }
@@ -71,7 +79,7 @@
     font-family: var(--font-display);
     font-optical-sizing: auto;
     letter-spacing: -0.02em;
-    line-height: 1.05;
+    line-height: 1.02;
   }
 
   /* Eyebrow mono, uppercase, tracking larg (§4.2) */
@@ -80,7 +88,7 @@
     text-transform: uppercase;
     letter-spacing: 0.18em;
     font-size: 0.75rem;
-    color: var(--color-text-muted);
+    color: var(--color-accent);
   }
 
   /* ---------------------------------------------------------------
@@ -148,13 +156,13 @@
   }
 
   .u-prose blockquote {
-    border-left: 2px solid var(--color-gold);
+    border-left: 2px solid var(--color-accent);
     padding-left: 1.25rem;
     font-style: italic;
   }
 
   .u-prose a {
-    color: var(--color-gold);
+    color: var(--color-accent);
     text-underline-offset: 3px;
     text-decoration: underline;
   }
@@ -202,7 +210,7 @@
     z-index: 100;
     padding: 0.75rem 1.25rem;
     background-color: var(--color-surface);
-    border: 1px solid var(--color-gold);
+    border: 1px solid var(--color-accent);
     border-radius: var(--radius-btn);
     transition: top 200ms var(--ease-signature);
   }
@@ -243,8 +251,7 @@
 
 /* ---------------------------------------------------------------
    prefers-reduced-motion (§8) — plasa de siguranță globală pentru
-   animațiile CSS. Animațiile JS (motion) sunt oprite separat, prin
-   useReducedMotion() în componente.
+   animațiile și tranzițiile CSS (singurele animații din site).
    --------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html {

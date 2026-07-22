@@ -9,6 +9,10 @@ type Status = "idle" | "submitting" | "success" | "error";
 /**
  * Formular de contact prin Web3Forms (spec §5.4) — fără backend propriu.
  * Anti-spam: honeypot ascuns; dacă e completat, cererea nu pleacă.
+ *
+ * Stil „editorial ivoriu": câmpuri doar cu border-bottom (hairline care se
+ * face bronz la focus), butonul de submit e singurul element plin din
+ * pagină. Erorile în accent-strong (6.39:1 pe bg — AA).
  */
 export function ContactForm() {
   const t = useTranslations("contact");
@@ -62,18 +66,18 @@ export function ContactForm() {
 
   if (!configured) {
     return (
-      <p className="rounded-card border border-gold/40 bg-surface p-6 text-sm text-text-muted">
+      <p className="rounded-card border border-accent/40 bg-surface p-6 text-sm text-text-muted">
         {t("notConfigured")}{" "}
-        <code className="font-mono text-gold">NEXT_PUBLIC_WEB3FORMS_KEY</code>
+        <code className="font-mono text-accent">NEXT_PUBLIC_WEB3FORMS_KEY</code>
       </p>
     );
   }
 
   const fieldClass =
-    "w-full rounded-btn border border-border bg-surface px-4 py-3 text-sm text-text placeholder:text-text-muted/60 transition-colors duration-300 focus:border-gold focus:outline-none";
+    "w-full border-b border-border bg-transparent px-0 py-3 text-base text-text placeholder:text-text-muted/60 transition-colors duration-300 focus:border-accent focus:outline-none";
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
+    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-7">
       {/* Honeypot — ascuns vizual și pentru cititoarele de ecran. */}
       <div aria-hidden="true" className="absolute left-[-9999px]">
         <label>
@@ -94,10 +98,10 @@ export function ContactForm() {
           required
           aria-invalid={Boolean(errors.name)}
           aria-describedby={errors.name ? "name-error" : undefined}
-          className={`mt-2 ${fieldClass}`}
+          className={fieldClass}
         />
         {errors.name && (
-          <p id="name-error" className="mt-2 text-xs text-gold">
+          <p id="name-error" className="mt-2 text-xs text-accent-strong">
             {errors.name}
           </p>
         )}
@@ -115,10 +119,10 @@ export function ContactForm() {
           required
           aria-invalid={Boolean(errors.email)}
           aria-describedby={errors.email ? "email-error" : undefined}
-          className={`mt-2 ${fieldClass}`}
+          className={fieldClass}
         />
         {errors.email && (
-          <p id="email-error" className="mt-2 text-xs text-gold">
+          <p id="email-error" className="mt-2 text-xs text-accent-strong">
             {errors.email}
           </p>
         )}
@@ -135,10 +139,10 @@ export function ContactForm() {
           required
           aria-invalid={Boolean(errors.message)}
           aria-describedby={errors.message ? "message-error" : undefined}
-          className={`mt-2 resize-y ${fieldClass}`}
+          className={`resize-y ${fieldClass}`}
         />
         {errors.message && (
-          <p id="message-error" className="mt-2 text-xs text-gold">
+          <p id="message-error" className="mt-2 text-xs text-accent-strong">
             {errors.message}
           </p>
         )}
@@ -147,7 +151,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="inline-flex w-fit items-center rounded-btn border border-gold px-6 py-3 text-sm text-gold transition-colors duration-300 hover:bg-gold hover:text-bg active:scale-[0.98] disabled:opacity-50"
+        className="inline-flex w-fit items-center rounded-btn bg-accent px-7 py-3 text-sm font-medium text-bg transition-colors duration-300 hover:bg-accent-strong active:scale-[0.98] disabled:opacity-50"
       >
         {status === "submitting" ? t("sending") : t("send")}
       </button>
@@ -155,9 +159,11 @@ export function ContactForm() {
       {/* Stările de rezultat sunt anunțate asistiv, nu doar vizual. */}
       <p role="status" aria-live="polite" className="text-sm">
         {status === "success" && (
-          <span className="text-sage">{t("success")}</span>
+          <span className="text-text">{t("success")}</span>
         )}
-        {status === "error" && <span className="text-gold">{t("error")}</span>}
+        {status === "error" && (
+          <span className="text-accent-strong">{t("error")}</span>
+        )}
       </p>
     </form>
   );

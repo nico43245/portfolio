@@ -29,7 +29,7 @@ export async function BlogPreview({ locale }: { locale: Locale }) {
                   className="group flex flex-col gap-3 py-8 transition-colors duration-300 md:flex-row md:items-baseline md:justify-between md:gap-10"
                 >
                   <div className="min-w-0">
-                    <h3 className="u-display text-xl transition-colors duration-300 group-hover:text-gold md:text-2xl">
+                    <h3 className="u-display text-xl transition-colors duration-300 group-hover:text-accent md:text-2xl">
                       {title}
                     </h3>
                     <p className="mt-2 max-w-[60ch] text-sm text-text-muted">
@@ -51,7 +51,7 @@ export async function BlogPreview({ locale }: { locale: Locale }) {
 
         <Link
           href="/blog"
-          className="mt-10 inline-flex items-center gap-2 text-sm text-gold transition-colors duration-300 hover:text-gold-soft"
+          className="mt-10 inline-flex items-center gap-2 text-sm font-medium text-accent underline decoration-accent/40 underline-offset-8 transition-colors duration-300 hover:text-accent-strong hover:decoration-accent-strong"
         >
           {t("all")}
           <ArrowRight size={16} aria-hidden="true" />

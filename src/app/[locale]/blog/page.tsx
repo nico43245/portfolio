@@ -52,7 +52,7 @@ export default async function BlogIndex({ params }: Props) {
                   className="group flex flex-col gap-3 py-8 md:flex-row md:items-baseline md:justify-between md:gap-10"
                 >
                   <div className="min-w-0">
-                    <h2 className="u-display text-xl transition-colors duration-300 group-hover:text-gold md:text-2xl">
+                    <h2 className="u-display text-xl transition-colors duration-300 group-hover:text-accent md:text-2xl">
                       {title}
                     </h2>
                     <p className="mt-2 max-w-[60ch] text-sm text-text-muted">

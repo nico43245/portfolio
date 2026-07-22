@@ -1,9 +1,13 @@
 import { ThreadSeparator } from "./motion/ThreadSeparator";
 
 /**
- * Titlu de secțiune: număr mare mono + eyebrow + titlu display, cu firul
- * auriu care crește dedesubt. Numărul e decorativ (ordinea secțiunilor),
- * deci nu intră în arborele de accesibilitate.
+ * Titlu de secțiune, stil revistă: numărul secțiunii mare, în Fraunces și
+ * bronz, așezat în stânga titlului pe desktop (deasupra pe mobil), cu
+ * linia de cerneală care crește dedesubt.
+ *
+ * Numărul e decorativ (ordinea secțiunilor), deci nu intră în arborele de
+ * accesibilitate. #7f6435 pe ivoriu are 5.06:1 — trece AA și la text mic,
+ * cu atât mai mult la dimensiunea asta.
  */
 export function SectionHeading({
   number,
@@ -16,22 +20,23 @@ export function SectionHeading({
 }) {
   return (
     <header>
-      <div className="flex items-baseline gap-4">
-        {/* gold/50 pica contrastul AA (2.82:1); /80 urca la ~5.3:1 */}
+      <div className="flex flex-col gap-2 md:flex-row md:items-baseline md:gap-8">
         <span
           aria-hidden="true"
-          className="font-mono text-sm text-gold/80 tabular-nums"
+          className="u-display text-[2rem] text-accent tabular-nums md:min-w-[80px] md:text-[2.5rem]"
         >
           {number}
         </span>
-        <p className="u-eyebrow">{eyebrow}</p>
+
+        <div>
+          <p className="u-eyebrow">{eyebrow}</p>
+          <h2 className="u-display mt-3 text-[length:var(--step-section)]">
+            {title}
+          </h2>
+        </div>
       </div>
 
-      <h2 className="u-display mt-4 text-[length:var(--step-section)]">
-        {title}
-      </h2>
-
-      <ThreadSeparator className="mt-8" />
+      <ThreadSeparator className="mt-10" />
     </header>
   );
 }

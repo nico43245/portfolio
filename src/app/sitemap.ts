@@ -1,10 +1,14 @@
 import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
 import { getAllPosts } from "@/lib/mdx";
+import { hasCaseStudy, projects } from "@/lib/projects";
 import { SITE } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await getAllPosts();
+  // Aceeași sursă ca `generateStaticParams` din pagina de proiect, ca
+  // sitemap-ul să nu poată ajunge să listeze rute inexistente.
+  const cases = projects.filter(hasCaseStudy);
 
   const entries: MetadataRoute.Sitemap = [];
 
@@ -14,6 +18,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       priority: 1,
     });
+
+    for (const project of cases) {
+      entries.push({
+        url: `${SITE.url}/${locale}/work/${project.slug}`,
+        lastModified: new Date(),
+        priority: 0.8,
+      });
+    }
+
     // Fără articole publicate ruta /blog dă 404, deci nu intră în sitemap.
     if (posts.length > 0) {
       entries.push({
